@@ -1,0 +1,11 @@
+[Unit]
+Description=Run watchlog script every 10 seconds
+Requires=watchlog.service
+
+[Timer]
+AccuracySec=1sec
+OnUnitActiveSec=10
+Unit=watchlog.service
+
+[Install]
+WantedBy=timers.target

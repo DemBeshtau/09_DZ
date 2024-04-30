@@ -1,0 +1,5 @@
+# Configuration file for watchlog service
+
+#File and keyword
+WORD="ALERT"
+LOG=/var/log/watchlog.log
