@@ -78,17 +78,14 @@ WantedBy=timers.target
 ```
 1.6. Старт сервиса и проверка его состояния:
 ```shell
-[root@inittest ~]# systemctl start watchlog.service
-[root@inittest ~]# systemctl status watchlog.service
-● watchlog.service - Testing watchlog service
-   Loaded: loaded (/etc/systemd/system/watchlog.service; disabled; vendor preset: disabled)
-   Active: inactive (dead) since Tue 2024-04-30 17:15:56 UTC; 6s ago
-  Process: 3502 ExecStart=/opt/watchlog.sh $WORD $LOG (code=exited, status=0/SUCCESS)
- Main PID: 3502 (code=exited, status=0/SUCCESS)
+[root@inittest ~]# systemctl start watchlog.timer
+[root@inittest ~]# systemctl status watchlog.timer
+● watchlog.timer - Run watchlog script every 10 seconds
+   Loaded: loaded (/etc/systemd/system/watchlog.timer; disabled; vendor preset: disabled)
+   Active: active (waiting) since Tue 2024-04-30 18:24:12 UTC; 8s ago
+  Trigger: Tue 2024-04-30 18:24:22 UTC; 1s left
 
-Apr 30 17:15:56 inittest systemd[1]: Starting Testing watchlog service...
-Apr 30 17:15:56 inittest systemd[1]: watchlog.service: Succeeded.
-Apr 30 17:15:56 inittest systemd[1]: Started Testing watchlog service.
+Apr 30 18:24:12 inittest systemd[1]: Started Run watchlog script every 10 seconds.
 ```
 1.7. Проверка работы сервиса:
 ```shell
