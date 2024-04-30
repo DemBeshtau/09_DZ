@@ -188,5 +188,59 @@ WantedBy=multi-user.target
            ├─4198 /usr/bin/php-cgi
            ...
 ```
-#### 3. Дополнение unit-файл httpd (он же apache2) возможностью запустить несколько инстансов сервера с разными конфигурационными файлами.####
-3.1.
+#### 3. Дополнение unit-файла httpd (он же apache2) возможностью запустить несколько инстансов сервера с разными конфигурационными файлами. ####
+3.1. Подготовка юнит файла для запуска нескольких экземпляров сервиса с использованием шаблона в <br/>
+конфигурации файла окружения (/usr/lib/systemd/system/httpd.service ):
+```shell
+[root@inittest ~]# nano /etc/systemd/system/httpd.service
+...
+[root@inittest ~]# cat /etc/systemd/system/httpd.service
+[Unit]
+Description=The Apache HTTP Server
+Wants=httpd-init.service
+After=network.target remote-fs.target nss-lookup.target httpd-init.service
+Documentation=man:httpd.service(8)
+
+[Service]
+Type=notify
+Environment=LANG=C
+EnvironmentFile=/etc/sysconfig/httpd-%I
+ExecStart=/usr/sbin/httpd $OPTIONS -DFOREGROUND
+ExecReload=/usr/sbin/httpd $OPTIONS -k graceful
+# Send SIGWINCH for graceful stop
+KillSignal=SIGWINCH
+KillMode=mixed
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+```
+3.2. Создание двух файлов окружения с опциями запуска веб-сервера с необходимыми конфигурационными<br/>
+файлами:
+```shell
+[root@inittest ~]# cat /etc/sysconfig/httpd-first 
+OPTIONS=-f conf/first.conf
+[root@inittest ~]# cat /etc/sysconfig/httpd-second 
+OPTIONS=-f conf/second.conf
+```
+3.3. Создание конфигурационных файлов httpd в /etc/httpd/conf:
+```shell
+[root@inittest ~]# cat /etc/httpd/conf/first.conf 
+...
+ServerRoot "/etc/httpd"
+PidFile /var/run/httpd-first.pid
+Listen 80
+...
+[root@inittest ~]# cat /etc/httpd/conf/second.conf
+...
+ServerRoot "/etc/httpd"
+PidFile /var/run/httpd-second.pid
+Listen 8080
+... 
+```
+3.4. Запуск двух инстансов httpd:
+```shell
+[root@inittest ~]# ss -ntlpu | grep httpd
+tcp   LISTEN 0      511          0.0.0.0:8080      0.0.0.0:*    users:(("httpd",pid=5701,fd=3),("httpd",pid=5700,fd=3),("httpd",pid=5699,fd=3),("httpd",pid=5698,fd=3),("httpd",pid=5696,fd=3))
+tcp   LISTEN 0      511          0.0.0.0:80        0.0.0.0:*    users:(("httpd",pid=5473,fd=3),("httpd",pid=5472,fd=3),("httpd",pid=5471,fd=3),("httpd",pid=5470,fd=3),("httpd",pid=5468,fd=3))
+```
