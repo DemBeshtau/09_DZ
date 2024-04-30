@@ -119,7 +119,6 @@ Apr 30 17:19:57 inittest systemd[1]: Started Testing watchlog service.
 [root@inittest ~]# yum list installed epel-release
 Installed Packages
 epel-release.noarch                                                8-19.el8                                                 @epel
-
 [root@inittest ~]# yum list installed spawn-fcgi
 Installed Packages
 spawn-fcgi.x86_64                                               1.6.3-17.el8                                                @epel
@@ -136,4 +135,58 @@ mod_fcgid.x86_64                                             2.3.9-17.el8       
 Installed Packages
 httpd.x86_64                                     2.4.37-64.module_el8+965+1ad5c49d                                     @appstream
 ```
-2.2. 
+2.2. Раскомментирование переменных в /etc/sysconfig/spawn-fcgi:
+```shell
+[root@inittest ~]# nano /etc/sysconfig/spawn-fcgi
+...
+[root@inittest ~]# cat /etc/sysconfig/spawn-fcgi 
+# You must set some working options before the "spawn-fcgi" service will work.
+# If SOCKET points to a file, then this file is cleaned up by the init script.
+#
+# See spawn-fcgi(1) for all possible options.
+#
+# Example :
+SOCKET=/var/run/php-fcgi.sock
+OPTIONS="-u apache -g apache -s $SOCKET -S -M 0600 -C 32 -F 1 -P /var/run/spawn-fcgi.pid -- /usr/bin/php-cgi"
+```
+2.3. Подготовка юнит файла для сервиса spawn-fcgi:
+```shell
+[root@inittest ~]# nano /etc/systemd/system/spawn-fcgi.service
+...
+[root@inittest ~]# cat /etc/systemd/system/spawn-fcgi.service 
+[Unit]
+Description=spawn-fcgi startup service by Otus
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/var/run/spawn-fcgi.pid
+EnvironmentFile=/etc/sysconfig/spawn-fcgi
+ExecStart=/usr/bin/spawn-fcgi -n $OPTIONS
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+```
+2.4. Запуск сервиса spawn-fcgi и проверка его работоспособности:
+```shell
+[root@inittest ~]# systemctl start spawn-fcgi
+[root@inittest ~]# systemctl status spawn-fcgi
+● spawn-fcgi.service - spawn-fcgi startup service by Otus
+   Loaded: loaded (/etc/systemd/system/spawn-fcgi.service; disabled; vendor preset: disabled)
+   Active: active (running) since Tue 2024-04-30 17:38:06 UTC; 21s ago
+ Main PID: 4192 (php-cgi)
+    Tasks: 33 (limit: 2697)
+   Memory: 27.7M
+   CGroup: /system.slice/spawn-fcgi.service
+           ├─4192 /usr/bin/php-cgi
+           ├─4193 /usr/bin/php-cgi
+           ├─4194 /usr/bin/php-cgi
+           ├─4195 /usr/bin/php-cgi
+           ├─4196 /usr/bin/php-cgi
+           ├─4197 /usr/bin/php-cgi
+           ├─4198 /usr/bin/php-cgi
+           ...
+```
+#### 3. Дополнение unit-файл httpd (он же apache2) возможностью запустить несколько инстансов сервера с разными конфигурационными файлами.####
+3.1.
