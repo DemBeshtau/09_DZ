@@ -90,24 +90,31 @@ Apr 30 18:24:12 inittest systemd[1]: Started Run watchlog script every 10 second
 1.7. Проверка работы сервиса:
 ```shell
 [root@inittest ~]# tail -f /var/log/messages 
-Apr 30 17:19:13 inittest systemd[1]: watchlog.service: Succeeded.
-Apr 30 17:19:13 inittest systemd[1]: Started Testing watchlog service.
-Apr 30 17:19:24 inittest systemd[1]: Starting Testing watchlog service...
-Apr 30 17:19:24 inittest root[3606]: Tue Apr 30 17:19:24 UTC 2024: I found word!
-Apr 30 17:19:24 inittest systemd[1]: watchlog.service: Succeeded.
-Apr 30 17:19:24 inittest systemd[1]: Started Testing watchlog service.
-Apr 30 17:19:35 inittest systemd[1]: Starting Testing watchlog service...
-Apr 30 17:19:35 inittest root[3611]: Tue Apr 30 17:19:35 UTC 2024: I found word!
-Apr 30 17:19:35 inittest systemd[1]: watchlog.service: Succeeded.
-Apr 30 17:19:35 inittest systemd[1]: Started Testing watchlog service.
-Apr 30 17:19:46 inittest systemd[1]: Starting Testing watchlog service...
-Apr 30 17:19:46 inittest root[3619]: Tue Apr 30 17:19:46 UTC 2024: I found word!
-Apr 30 17:19:46 inittest systemd[1]: watchlog.service: Succeeded.
-Apr 30 17:19:46 inittest systemd[1]: Started Testing watchlog service.
-Apr 30 17:19:57 inittest systemd[1]: Starting Testing watchlog service...
-Apr 30 17:19:57 inittest root[3624]: Tue Apr 30 17:19:57 UTC 2024: I found word!
-Apr 30 17:19:57 inittest systemd[1]: watchlog.service: Succeeded.
-Apr 30 17:19:57 inittest systemd[1]: Started Testing watchlog service.
+Apr 30 18:24:12 inittest systemd[1]: Started Run watchlog script every 10 seconds.
+Apr 30 18:24:12 inittest systemd[1]: Starting Testing watchlog service...
+Apr 30 18:24:12 inittest root[6084]: Tue Apr 30 18:24:12 UTC 2024: I found word!
+Apr 30 18:24:12 inittest systemd[1]: watchlog.service: Succeeded.
+Apr 30 18:24:12 inittest systemd[1]: Started Testing watchlog service.
+Apr 30 18:24:22 inittest systemd[1]: Starting Testing watchlog service...
+Apr 30 18:24:22 inittest root[6092]: Tue Apr 30 18:24:22 UTC 2024: I found word!
+Apr 30 18:24:22 inittest systemd[1]: watchlog.service: Succeeded.
+Apr 30 18:24:22 inittest systemd[1]: Started Testing watchlog service.
+Apr 30 18:24:32 inittest systemd[1]: Starting Testing watchlog service...
+Apr 30 18:24:32 inittest root[6097]: Tue Apr 30 18:24:32 UTC 2024: I found word!
+Apr 30 18:24:32 inittest systemd[1]: watchlog.service: Succeeded.
+Apr 30 18:24:32 inittest systemd[1]: Started Testing watchlog service.
+Apr 30 18:24:42 inittest systemd[1]: Starting Testing watchlog service...
+Apr 30 18:24:42 inittest root[6102]: Tue Apr 30 18:24:42 UTC 2024: I found word!
+Apr 30 18:24:42 inittest systemd[1]: watchlog.service: Succeeded.
+Apr 30 18:24:42 inittest systemd[1]: Started Testing watchlog service.
+Apr 30 18:24:52 inittest systemd[1]: Starting Testing watchlog service...
+Apr 30 18:24:52 inittest root[6108]: Tue Apr 30 18:24:52 UTC 2024: I found word!
+Apr 30 18:24:52 inittest systemd[1]: watchlog.service: Succeeded.
+Apr 30 18:24:52 inittest systemd[1]: Started Testing watchlog service.
+Apr 30 18:25:03 inittest systemd[1]: Starting Testing watchlog service...
+Apr 30 18:25:03 inittest root[6113]: Tue Apr 30 18:25:03 UTC 2024: I found word!
+Apr 30 18:25:03 inittest systemd[1]: watchlog.service: Succeeded.
+Apr 30 18:25:03 inittest systemd[1]: Started Testing watchlog service.
 ```
 #### 2. Установка spawn-fcgi и переписывание init-скрипта на unit-файл ####
 2.1. Установка spawn-fcgi и необходимых для него пакетов:
