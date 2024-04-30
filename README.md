@@ -112,3 +112,28 @@ Apr 30 17:19:57 inittest root[3624]: Tue Apr 30 17:19:57 UTC 2024: I found word!
 Apr 30 17:19:57 inittest systemd[1]: watchlog.service: Succeeded.
 Apr 30 17:19:57 inittest systemd[1]: Started Testing watchlog service.
 ```
+#### 2. Установка spawn-fcgi и переписывание init-скрипта на unit-файл ####
+2.1. Установка spawn-fcgi и необходимых для него пакетов:
+```shell
+[root@inittest ~]# yum install epel-release -y && yum install spawn-fcgi php php-cli mod_fcgid httpd -y
+[root@inittest ~]# yum list installed epel-release
+Installed Packages
+epel-release.noarch                                                8-19.el8                                                 @epel
+
+[root@inittest ~]# yum list installed spawn-fcgi
+Installed Packages
+spawn-fcgi.x86_64                                               1.6.3-17.el8                                                @epel
+[root@inittest ~]# yum list installed php
+Installed Packages
+php.x86_64                                    7.2.24-1.module_el8.2.0+313+b04d0a66                                     @appstream
+[root@inittest ~]# yum list installed php-cli
+Installed Packages
+php-cli.x86_64                                  7.2.24-1.module_el8.2.0+313+b04d0a66                                   @appstream
+[root@inittest ~]# yum list installed mod_fcgid
+Installed Packages
+mod_fcgid.x86_64                                             2.3.9-17.el8                                              @appstream
+[root@inittest ~]# yum list installed httpd
+Installed Packages
+httpd.x86_64                                     2.4.37-64.module_el8+965+1ad5c49d                                     @appstream
+```
+2.2. 
