@@ -28,6 +28,8 @@ Vagrant.configure("2") do |config|
             sudo -i
             mkdir -p ~root/.ssh
             cp ~vagrant/.ssh/auth* ~root/.ssh
+	    setenforce 0
+	    systemctl stop firewalld 
             yum install epel-release -y
             yum install spawn-fcgi php php-cli mod_fcgid httpd nano -y
             cp /vagrant/watchlog /etc/sysconfig/
